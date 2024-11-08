@@ -20,7 +20,20 @@ const SudokuSolver = () => {
     }
     return true;
   };
-
+  const checker = (grid) => {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const num = grid[i][j];
+        grid[i][j]='';
+        if (num !== '' && !isValid(grid, i, j, num)) {
+          return true;  // Invalid placement found
+        }
+        grid[i][j]=num;
+      }
+    }
+    return false;  // All placements are valid
+  };
+  
   const solveSudoku = (grid) => {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
@@ -41,7 +54,10 @@ const SudokuSolver = () => {
 
   const handleSolve = () => {
     const gridCopy = deepCopyGrid(grid);
-    if (solveSudoku(gridCopy)) {
+    if (checker(gridCopy)) {
+      setError('Invaid Input');
+    }
+    else if (solveSudoku(gridCopy)) {
       setGrid(gridCopy);
       setError(null);
     } else {
@@ -67,18 +83,16 @@ const SudokuSolver = () => {
       <h2 className={styles.sudokuTitle}>Sudoku Solver</h2>
       {error && <p className={styles.errorMessage}>{error}</p>}
       <div className={styles.sudokuGrid}>
-        {grid.map((row, rowIndex) => 
+        {grid.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <input
               key={`${rowIndex}-${colIndex}`}
               type="text"
               value={cell}
               onChange={(e) => handleChange(rowIndex, colIndex, e.target.value)}
-              className={`${styles.sudokuCell} ${
-                (colIndex + 1) % 3 === 0 && colIndex !== 8 ? styles.subgridBorderCol : ''
-              } ${
-                (rowIndex + 1) % 3 === 0 && rowIndex !== 8 ? styles.subgridBorderRow : ''
-              }`}
+              className={`${styles.sudokuCell} ${(colIndex + 1) % 3 === 0 && colIndex !== 8 ? styles.subgridBorderCol : ''
+                } ${(rowIndex + 1) % 3 === 0 && rowIndex !== 8 ? styles.subgridBorderRow : ''
+                }`}
             />
           ))
         )}

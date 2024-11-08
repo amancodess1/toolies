@@ -35,31 +35,31 @@ const Calculator = () => {
     const key = event.key;
 
     if (key >= '0' && key <= '9') {
-      handleButtonClick(key); // Add number
+      handleButtonClick(key); 
     } else if (key === '+' || key === '-' || key === '*' || key === '/') {
-      handleButtonClick(key); // Add operator
+      handleButtonClick(key); 
     } else if (key === '(' || key === ')') {
-      handleButtonClick(key); // Add parentheses
+      handleButtonClick(key); 
     } else if (key === '.') {
-      handleButtonClick(key); // Add decimal point
+      handleButtonClick(key); 
     } else if (key === 'Enter') {
-      handleEvaluate(); // Evaluate expression when Enter is pressed
+      handleEvaluate(); 
     } else if (key === 'Backspace') {
-      handleBackspace(); // Remove last character on backspace
+      handleBackspace(); 
     } else if (key === 'Escape') {
-      handleClear(); // Clear input on Escape
+      handleClear(); 
     }
   };
 
-  // Add event listener for keyboard inputs when the component mounts
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
 
-    // Cleanup the event listener when the component unmounts
+   
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [input]); // Re-run the effect whenever 'input' changes
+  }, [input]); 
 
   return (
     <div className="calculator">
